@@ -65,7 +65,9 @@ namespace DeviceConfig
             Console.WriteLine("\r\n24 HOUR REBOOT INFO ----------------------");
             bool enabled = Convert.ToBoolean(Convert.ChangeType(device.Get24RebootState(), typeof(uint)));
             Console.WriteLine($"24 HOUR REBOOT OPTION ENABLED  : {enabled}");
-            Console.WriteLine($"DEVICE DAILY REBOOT TIME       : {device.Get24RebootTime()}\r\n");
+            Console.WriteLine($"DEVICE DAILY REBOOT TIME       : {device.Get24RebootTime()}");
+            Console.WriteLine($"DEVICE LAST REBOOT FLAG        : {device.GetLastRebootFlag()}\r\n");
+            device.Offline();
             device.Disconnect();
         }
 

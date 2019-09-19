@@ -298,6 +298,36 @@ namespace DeviceUpdater
             return status;
         }
 
+        public string GetLastRebootFlag()
+        {
+            string rebootValue = "UNKNOWN";
+            try
+            {
+                string file_path = @"/HOST/MANAGER.DIA";
+                string result = RetrieveFile(file_path);
+
+                //parse Manager.DIA file - ; delimited list
+                List<string> managerDia = new List<string>();
+
+                //clean up the data
+                result = result.Replace("\r\n", "");
+
+                managerDia.AddRange(result.Split(';'));
+
+                string rebootConfig = managerDia.FirstOrDefault(m => m.Contains("020649"));
+
+                if (!string.IsNullOrWhiteSpace(rebootConfig))
+                {
+                    rebootValue = rebootConfig.Split('=')[1];
+                }
+            }
+            catch (Exception ex)
+            {
+                OnNotification(this, new NotificationEventArgs { NotificationType = NotificationType.Log, Message = $"Error getting file from device {ex.Message}{Environment.NewLine}" });
+            }
+            return rebootValue;
+        }
+
         public void Set24RebootTime(string action)
         {
             //check device configuration
