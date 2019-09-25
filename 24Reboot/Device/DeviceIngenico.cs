@@ -286,7 +286,6 @@ namespace DeviceUpdater
             return result;
         }
 
-
         public string Get24RebootTime()
         {
             RBA_API.SetParam(PARAMETER_ID.P61_REQ_GROUP_NUM, "0007");
@@ -390,6 +389,11 @@ namespace DeviceUpdater
                     Set24RebootState(mode ? "1" : "0");
                     enabled = Convert.ToBoolean(Convert.ChangeType(Get24RebootState(), typeof(uint)));
                     Console.WriteLine($"24 HOUR REBOOT OPTION ENABLED  : {enabled}");
+                    if(!mode)
+                    {
+                        ERROR_ID result = WriteConfiguration("0007", "0046", "0");
+                        Debug.WriteLine($"WriteConfiguration result      : {result}");
+                    }
                     Offline();
                     HardDeviceReset();
                 }
@@ -469,6 +473,17 @@ namespace DeviceUpdater
             string fileData = RBA_API.GetParam(PARAMETER_ID.P65_RES_DATA);
 
             return fileData;
+        }
+
+        public string GetVariable_29(string varId)
+        {
+            RBA_API.SetParam(PARAMETER_ID.P29_REQ_VARIABLE_ID, varId);
+            RBA_API.ProcessMessage(MESSAGE_ID.M29_GET_VARIABLE);
+
+            string status = RBA_API.GetParam(PARAMETER_ID.P29_RES_STATUS);
+            string variable = RBA_API.GetParam(PARAMETER_ID.P29_RES_VARIABLE_ID);
+            string value = RBA_API.GetParam(PARAMETER_ID.P29_RES_VARIABLE_DATA);
+            return value;
         }
     }
 }

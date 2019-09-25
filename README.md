@@ -25,3 +25,4 @@ This an application to Configure Ingenico Devices.
 ### HISTORY ###
 
 * 20190917 - Initial repository.
+* 20190925 - Added INFO option to show time until next reboot.

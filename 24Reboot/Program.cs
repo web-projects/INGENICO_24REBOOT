@@ -48,16 +48,33 @@ namespace DeviceConfig
                         break;
                     }
 
+                    case "/INFO":
+                    {
+                        if(args.Length == 2)
+                        { 
+                            DeviceConfig updater = new DeviceConfig(args[1]);
+                            string variable = updater.configVariable("0500");
+                            TimeSpan t = TimeSpan.FromSeconds(Convert.ToDouble(variable));
+                            string timespan = string.Format("{0:D2}h:{1:D2}m:{2:D2}s", t.Hours, t.Minutes, t.Seconds);
+                            Console.WriteLine($"24HOUR REBOOT [/INFO]: NEXT REBOOT IN: {timespan}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("24HOUR REBOOT [/INFO]: Missing Parameter - [PORT]");
+                        }
+                        break;
+                    }
+
                     default:
                     {
-                        Console.WriteLine("24HOUR REBOOT: Missing Verb - [/GET] [/SET]");
+                        Console.WriteLine("24HOUR REBOOT: Missing Verb - [/GET] [/SET] [/INFO]");
                         break;
                     }
                 }
             }
             else
             {
-                Console.WriteLine("24HOUR REBOOT: Missing Verb - [/GET] [/SET]");
+                Console.WriteLine("24HOUR REBOOT: Missing Verb - [/GET] [/SET] [/INFO] [/OFF]");
             }
         }
     }

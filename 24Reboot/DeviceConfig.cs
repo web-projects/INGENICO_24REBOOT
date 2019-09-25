@@ -82,5 +82,19 @@ namespace DeviceConfig
                 Debug.WriteLine("DeviceConfig: EXCEPTION={0}", (object)e.Message);
             }
         }
+
+        public string configVariable(string action)
+        {
+            string result = string.Empty;
+            try
+            {
+                result = device.GetVariable_29(action);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("DeviceConfig: EXCEPTION={0}", (object)e.Message);
+            }
+            return result;
+        }
     }
 }
